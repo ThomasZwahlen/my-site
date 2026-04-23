@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Résumé | Thomas Zwahlen</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root { --navy:#0a1628; --gold:#c9a84c; --light:#f8f6f1; }
+    body { font-family:'Source Sans 3',sans-serif; background:var(--light); color:#1a1a2e; }
+    .navbar { background:var(--navy)!important; border-bottom:2px solid var(--gold); }
+    .navbar-brand { font-family:'Playfair Display',serif; color:var(--gold)!important; font-size:1.4rem; }
+    .nav-link { color:#ccc!important; font-weight:600; transition:color .2s; }
+    .nav-link:hover,.nav-link.active { color:var(--gold)!important; }
+
+    .resume-hero { background:linear-gradient(135deg,var(--navy),#2d3f5f); padding:60px 0 40px; text-align:center; }
+    .resume-hero h1 { font-family:'Playfair Display',serif; color:#fff; font-size:3rem; font-weight:900; }
+    .resume-hero p { color:#aab5c8; font-size:1.05rem; }
+    .resume-hero .gold-line { width:60px; height:3px; background:var(--gold); margin:1rem auto; }
+    .contact-line { color:#aab5c8; font-size:.9rem; margin-top:.4rem; }
+    .contact-line a { color:var(--gold); text-decoration:none; }
+
+    .resume-wrapper { max-width:900px; margin:0 auto; padding:50px 20px 80px; }
+
+    .r-section { margin-bottom:2.5rem; }
+    .r-section-title { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--navy); border-bottom:2px solid var(--gold); padding-bottom:.4rem; margin-bottom:1.2rem; display:flex; align-items:center; gap:.6rem; }
+    .r-section-title i { color:var(--gold); }
+    .r-item { margin-bottom:1.4rem; padding-bottom:1.4rem; border-bottom:1px solid #e8e4db; }
+    .r-item:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+    .r-item-header { display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:.3rem; }
+    .r-item-title { font-weight:700; font-size:1.05rem; color:var(--navy); }
+    .r-item-org { color:var(--gold); font-weight:600; font-size:.95rem; margin-top:2px; }
+    .r-item-loc { color:#888; font-size:.88rem; }
+    .r-item-period { font-size:.8rem; color:#888; text-transform:uppercase; letter-spacing:1px; white-space:nowrap; }
+    .r-item ul { margin-top:.5rem; padding-left:1.2rem; color:#444; font-size:.95rem; line-height:1.75; }
+
+    .skill-grid { display:flex; flex-wrap:wrap; gap:8px; }
+    .skill-tag { background:var(--navy); color:var(--gold); font-size:.82rem; font-weight:600; padding:5px 14px; border-radius:2px; letter-spacing:.5px; }
+
+    .gpa-bar { display:flex; align-items:center; gap:1rem; margin-top:.75rem; }
+    .bar-track { flex:1; height:8px; background:#e0dbd0; border-radius:4px; }
+    .bar-fill { height:100%; border-radius:4px; background:linear-gradient(90deg,var(--navy),var(--gold)); }
+
+    .badge-award { display:inline-block; background:#fff7e6; color:#92650a; border:1px solid #e8c97a; font-size:.8rem; font-weight:700; padding:4px 12px; border-radius:20px; margin:3px; }
+
+    .print-btn { background:var(--gold); color:var(--navy); font-weight:700; font-size:.85rem; letter-spacing:1px; text-transform:uppercase; padding:10px 28px; border:none; border-radius:2px; cursor:pointer; transition:background .2s; }
+    .print-btn:hover { background:#e8c97a; }
+
+    footer { background:#060d1a; padding:20px 0; text-align:center; }
+    footer p { color:#444; font-size:.85rem; margin:0; }
+
+    @media print {
+      .navbar,.resume-hero,footer,.print-btn,.no-print { display:none!important; }
+      .resume-wrapper { padding:0; }
+      body { background:white; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">TZ</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto gap-2">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="resume.html">Résumé</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="resume-hero">
+  <h1>Thomas Zwahlen</h1>
+  <div class="gold-line"></div>
+  <p>Pre-Business &mdash; Economics Minor &nbsp;|&nbsp; Brigham Young University &nbsp;|&nbsp; Provo, UT</p>
+  <p class="contact-line">
+    183 Ardith Ct, Orinda, CA 94563 &nbsp;|&nbsp;
+    (925) 259-1924 &nbsp;|&nbsp;
+    <a href="mailto:thomaszwahlen1@gmail.com">thomaszwahlen1@gmail.com</a>
+  </p>
+  <div class="mt-3 no-print">
+    <button class="print-btn" onclick="window.print()"><i class="bi bi-printer me-1"></i> Print / Save PDF</button>
+  </div>
+</div>
+
+<div class="resume-wrapper">
+
+  <!-- EDUCATION -->
+  <div class="r-section" id="education">
+    <div class="r-section-title"><i class="bi bi-mortarboard-fill"></i> Education</div>
+    <div class="r-item">
+      <div class="r-item-header">
+        <div>
+          <div class="r-item-title">Pre-Business, Minor in Economics</div>
+          <div class="r-item-org">Brigham Young University</div>
+          <div class="r-item-loc">Provo, UT</div>
+        </div>
+        <div class="r-item-period">Expected Apr 2028</div>
+      </div>
+      <ul>
+        <li>GPA: 3.90 / 4.00</li>
+        <li>Member: Chess Club, Investment Banking Association, PE/VC Association, Private Banking/Wealth Management Association</li>
+      </ul>
+      <div class="gpa-bar">
+        <span style="font-size:.8rem;color:#888;min-width:70px;">GPA 3.90/4.0</span>
+        <div class="bar-track"><div class="bar-fill" style="width:97.5%"></div></div>
+        <span style="font-size:.8rem;color:var(--gold);font-weight:700;">3.90</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <div class="r-section" id="experience">
+    <div class="r-section-title"><i class="bi bi-briefcase-fill"></i> Experience</div>
+
+    <div class="r-item">
+      <div class="r-item-header">
+        <div>
+          <div class="r-item-title">Teaching Assistant</div>
+          <div class="r-item-org">Brigham Young University</div>
+          <div class="r-item-loc">Provo, UT</div>
+        </div>
+        <div class="r-item-period">Aug 2025 – Present</div>
+      </div>
+      <ul>
+        <li>Served as a teaching assistant for a class of 50+ students, acting as the primary point of contact for academic support</li>
+        <li>Maintained organized grading systems and tracked student progress to ensure accuracy and transparency</li>
+        <li>Adapted quickly to course technology and platforms, including Canvas, to manage assignments and feedback</li>
+      </ul>
+    </div>
+
+    <div class="r-item">
+      <div class="r-item-header">
+        <div>
+          <div class="r-item-title">Case Competition Participant</div>
+          <div class="r-item-org">Saphire Wealth Management</div>
+          <div class="r-item-loc">Provo, UT</div>
+        </div>
+        <div class="r-item-period">Oct – Nov 2025</div>
+      </div>
+      <ul>
+        <li>Designed a low-volatility portfolio built around strong diversification and protection against market uncertainty</li>
+        <li>Developed a high-growth stock portfolio targeting rapidly growing market sectors like E-Commerce and AI</li>
+        <li>Created a marketing plan targeting high-net-worth individuals by sponsoring pickleball and golf tournaments</li>
+      </ul>
+    </div>
+
+    <div class="r-item">
+      <div class="r-item-header">
+        <div>
+          <div class="r-item-title">Top 5 Case Competition Participant</div>
+          <div class="r-item-org">Keystone National Group (Investment Firm)</div>
+          <div class="r-item-loc">Provo, UT</div>
+        </div>
+        <div class="r-item-period">Sep – Oct 2025</div>
+      </div>
+      <ul>
+        <li>Crafted a senior secured ABL pitch for iHeartRadio, assessing capital structure, collateral, and recovery outcomes</li>
+        <li>Built a 4-year financial model and risk-return analysis, integrating EBITDA forecasts and recovery precedents</li>
+        <li>Conducted deep research into industry headwinds and tailwinds, including cost-cutting procedures and growth plans</li>
+      </ul>
+    </div>
+
+    <div class="r-item">
+      <div class="r-item-header">
+        <div>
+          <div class="r-item-title">Coach and Camp Counselor</div>
+          <div class="r-item-org">Saint Mary's College — Randy Bennett Basketball Camp</div>
+          <div class="r-item-loc">Moraga, CA</div>
+        </div>
+        <div class="r-item-period">Apr – Jul 2023</div>
+      </div>
+      <ul>
+        <li>Provided basketball training to campers across age groups, with an emphasis on skill development and teamwork</li>
+        <li>Coordinated with collegiate athletes and coaching staff to oversee multiple teams, brackets, and training drills</li>
+        <li>Promoted a positive, inclusive environment that encourages skill growth and sportsmanship for all participants</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- LEADERSHIP & SERVICE -->
+  <div class="r-section" id="leadership">
+    <div class="r-section-title"><i class="bi bi-people-fill"></i> Leadership & Service</div>
+
+    <div class="r-item">
+      <div class="r-item-header">
+        <div>
+          <div class="r-item-title">Volunteer — BYU Y Serve Program</div>
+          <div class="r-item-org">Brigham Young University</div>
+          <div class="r-item-loc">Provo, UT</div>
+        </div>
+        <div class="r-item-period">Aug – Sep 2024</div>
+      </div>
+      <ul>
+        <li>Participated in campus cleanup projects, contributing to a cleaner and more welcoming school environment</li>
+        <li>Collaborated with fellow volunteers to maintain campus facilities and promote student service involvement</li>
+        <li>Contributed to trash cleanup and landscaping efforts across BYU campus</li>
+      </ul>
+    </div>
+
+    <div class="r-item">
+      <div class="r-item-header">
+        <div>
+          <div class="r-item-title">Volunteer</div>
+          <div class="r-item-org">ECAP — Non-Profit Food Bank</div>
+          <div class="r-item-loc">Oakland, CA</div>
+        </div>
+        <div class="r-item-period">Jan 2017 – Mar 2020</div>
+      </div>
+      <ul>
+        <li>Prepared and packaged fresh meals for distribution to homeless encampments and community members in need</li>
+        <li>Partnered with ECAP leadership to promote volunteer engagement and expand community outreach initiatives</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- AWARDS, SKILLS & INTERESTS -->
+  <div class="r-section" id="awards">
+    <div class="r-section-title"><i class="bi bi-award-fill"></i> Awards, Skills & Interests</div>
+    <div class="r-item">
+      <div class="mb-3">
+        <span class="badge-award">🏈 2024 CIF Football Champions</span>
+        <span class="badge-award">🏀 DAL Basketball — League Leader in Blocks Per Game</span>
+        <span class="badge-award">🏆 Top 5 — Keystone Investment Banking Competition</span>
+      </div>
+      <ul>
+        <li><strong>Personal Investor:</strong> Manage a $3,000+ personal portfolio using a disciplined value and long-term investing strategy. Top 3 holdings: ASML, UBER, AMZN</li>
+        <li><strong>Certifications:</strong> CFI Modeling and Accounting Courses · CFA Level 1 (Planned) · Bloomberg Market Concepts (In Progress)</li>
+        <li><strong>Interests:</strong> Grilling and baking enthusiast with a strong appreciation for quality food and creating new recipes</li>
+        <li><strong>Hiking:</strong> Thousand Island Lake, Mount Tamalpais, Mount Diablo, Rocky Ridge – King Canyon Loop</li>
+        <li><strong>Sports Teams:</strong> Las Vegas Raiders, Golden State Warriors, Oakland A's, BYU Cougars</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="r-section" id="skills">
+    <div class="r-section-title"><i class="bi bi-tools"></i> Skills</div>
+    <div class="mb-2" style="font-weight:600;color:var(--navy);font-size:.9rem;text-transform:uppercase;letter-spacing:1px;">Finance & Technical</div>
+    <div class="skill-grid mb-3">
+      <span class="skill-tag">Financial Modeling</span>
+      <span class="skill-tag">Portfolio Management</span>
+      <span class="skill-tag">Capital Structure Analysis</span>
+      <span class="skill-tag">EBITDA / Valuation</span>
+      <span class="skill-tag">Bloomberg Market Concepts</span>
+      <span class="skill-tag">CFI Modeling & Accounting</span>
+      <span class="skill-tag">Microsoft Excel</span>
+      <span class="skill-tag">Canvas LMS</span>
+      <span class="skill-tag">Value Investing</span>
+    </div>
+    <div class="mb-2 mt-3" style="font-weight:600;color:var(--navy);font-size:.9rem;text-transform:uppercase;letter-spacing:1px;">Soft Skills</div>
+    <div class="skill-grid">
+      <span class="skill-tag">Team Leadership</span>
+      <span class="skill-tag">Public Speaking</span>
+      <span class="skill-tag">Written Communication</span>
+      <span class="skill-tag">Coaching & Mentoring</span>
+      <span class="skill-tag">Attention to Detail</span>
+      <span class="skill-tag">Research & Analysis</span>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>&copy; 2025 Thomas Zwahlen. All rights reserved.</p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

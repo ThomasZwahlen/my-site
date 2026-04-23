@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Snake Game | Thomas Zwahlen</title>
+  <style>
+    /* ===================== RESET & BASE ===================== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --border: #30363d;
+      --green: #39d353;
+      --green-dim: #26a641;
+      --green-dark: #0e4429;
+      --snake-head: #58e36b;
+      --food-color: #f97316;
+      --food-glow: rgba(249,115,22,0.6);
+      --text: #e6edf3;
+      --muted: #7d8590;
+      --danger: #f85149;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Courier New', Courier, monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ===================== HEADER ===================== */
+    header {
+      width: 100%;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .header-nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin-left: 1.5rem;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+
+    .header-nav a:hover { color: var(--green); }
+
+    /* ===================== GAME CONTAINER ===================== */
+    .game-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 20px 60px;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .game-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      text-shadow: 0 0 20px rgba(57,211,83,0.4);
+    }
+
+    .game-subtitle {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    /* ===================== SCOREBOARD ===================== */
+    .scoreboard {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px 28px;
+    }
+
+    .score-item {
+      text-align: center;
+    }
+
+    .score-label {
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .score-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--green);
+      line-height: 1;
+      min-width: 60px;
+      display: block;
+    }
+
+    .score-value.danger { color: var(--danger); }
+
+    /* ===================== CANVAS ===================== */
+    .canvas-wrapper {
+      position: relative;
+      border: 2px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow:
+        0 0 0 1px rgba(57,211,83,0.05),
+        0 0 40px rgba(57,211,83,0.08),
+        inset 0 0 60px rgba(0,0,0,0.4);
+    }
+
+    canvas {
+      display: block;
+      background: var(--bg);
+    }
+
+    /* ===================== OVERLAY ===================== */
+    .overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(13,17,23,0.92);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(2px);
+      transition: opacity 0.3s;
+    }
+
+    .overlay.hidden { display: none; }
+
+    .overlay-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      text-shadow: 0 0 20px rgba(57,211,83,0.5);
+    }
+
+    .overlay-title.game-over { color: var(--danger); text-shadow: 0 0 20px rgba(248,81,73,0.5); }
+
+    .overlay-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 2px;
+      margin-bottom: 24px;
+    }
+
+    .overlay-score {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .overlay-score span { color: var(--green); font-size: 1rem; display: block; font-weight: 400; letter-spacing: 2px; color: var(--muted); }
+
+    .btn-play {
+      background: var(--green);
+      color: var(--bg);
+      border: none;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 14px 40px;
+      border-radius: 3px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-play:hover { background: var(--snake-head); transform: scale(1.04); }
+    .btn-play:active { transform: scale(0.98); }
+
+    /* ===================== CONTROLS ===================== */
+    .controls-info {
+      display: flex;
+      gap: 2rem;
+      margin-top: 18px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    .ctrl-item { display: flex; align-items: center; gap: 0.4rem; }
+
+    .key {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 2px 7px;
+      font-size: 0.72rem;
+      color: var(--text);
+      min-width: 26px;
+    }
+
+    /* ===================== MOBILE D-PAD ===================== */
+    .dpad {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 22px;
+      gap: 4px;
+    }
+
+    .dpad-row { display: flex; gap: 4px; }
+
+    .dpad-btn {
+      width: 54px; height: 54px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 1.2rem;
+      color: var(--text);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.1s;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    .dpad-btn:active { background: var(--green-dark); border-color: var(--green); }
+
+    @media (max-width: 540px) {
+      .dpad { display: flex; }
+      .controls-info { display: none; }
+      canvas { width: 100% !important; height: auto !important; }
+      .game-title { font-size: 1.8rem; }
+    }
+
+    /* ===================== SPEED SELECTOR ===================== */
+    .speed-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 16px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .speed-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 5px 14px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-transform: uppercase;
+    }
+
+    .speed-btn.active {
+      background: var(--green-dark);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    /* ===================== HIGH SCORE FLASH ===================== */
+    @keyframes newRecordFlash {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .new-record { animation: newRecordFlash 0.6s ease 3; color: var(--food-color) !important; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-logo">🐍 Snake.exe</div>
+  <nav class="header-nav">
+    <a href="scratch.html">← Fitness Page</a>
+    <a href="index.html">Pro Site</a>
+    <a href="resume.html">Résumé</a>
+  </nav>
+</header>
+
+<div class="game-wrapper">
+  <div class="game-title">Snake</div>
+  <div class="game-subtitle">Classic Arcade &mdash; Thomas Zwahlen Edition</div>
+
+  <!-- Speed -->
+  <div class="speed-row">
+    Speed:
+    <button class="speed-btn active" data-speed="slow">Slow</button>
+    <button class="speed-btn" data-speed="normal">Normal</button>
+    <button class="speed-btn" data-speed="fast">Fast</button>
+    <button class="speed-btn" data-speed="insane">Insane</button>
+  </div>
+
+  <!-- Scoreboard -->
+  <div class="scoreboard">
+    <div class="score-item">
+      <div class="score-label">Score</div>
+      <span class="score-value" id="scoreDisplay">0</span>
+    </div>
+    <div class="score-item">
+      <div class="score-label">High Score</div>
+      <span class="score-value" id="highScoreDisplay">0</span>
+    </div>
+    <div class="score-item">
+      <div class="score-label">Length</div>
+      <span class="score-value" id="lengthDisplay">1</span>
+    </div>
+    <div class="score-item">
+      <div class="score-label">Level</div>
+      <span class="score-value" id="levelDisplay">1</span>
+    </div>
+  </div>
+
+  <!-- Canvas -->
+  <div class="canvas-wrapper">
+    <canvas id="gameCanvas" width="520" height="520"></canvas>
+
+    <!-- Start overlay -->
+    <div class="overlay" id="startOverlay">
+      <div class="overlay-title">Ready?</div>
+      <div class="overlay-sub">Use arrow keys or WASD to move</div>
+      <button class="btn-play" id="startBtn">▶ Start Game</button>
+    </div>
+
+    <!-- Game over overlay -->
+    <div class="overlay hidden" id="gameOverOverlay">
+      <div class="overlay-title game-over" id="gameOverTitle">Game Over</div>
+      <div class="overlay-score" id="finalScore">0 <span>points scored</span></div>
+      <div class="overlay-sub" id="gameOverSub">Press play to try again</div>
+      <button class="btn-play" id="restartBtn">↺ Play Again</button>
+    </div>
+  </div>
+
+  <!-- Controls hint -->
+  <div class="controls-info">
+    <div class="ctrl-item"><span class="key">↑</span><span class="key">↓</span><span class="key">←</span><span class="key">→</span> or <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span> to move</div>
+    <div class="ctrl-item"><span class="key">P</span> pause</div>
+    <div class="ctrl-item"><span class="key">R</span> restart</div>
+  </div>
+
+  <!-- Mobile D-Pad -->
+  <div class="dpad">
+    <div class="dpad-row">
+      <button class="dpad-btn" id="dUp">▲</button>
+    </div>
+    <div class="dpad-row">
+      <button class="dpad-btn" id="dLeft">◄</button>
+      <button class="dpad-btn" id="dDown">▼</button>
+      <button class="dpad-btn" id="dRight">►</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===================== GAME CONSTANTS =====================
+const CELL = 20;
+const COLS = 26;
+const ROWS = 26;
+const SPEEDS = { slow: 160, normal: 110, fast: 70, insane: 35 };
+
+// ===================== STATE =====================
+let snake, dir, nextDir, food, bonus, score, highScore, level, gameLoop, paused, alive, speed;
+
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = COLS * CELL;
+canvas.height = ROWS * CELL;
+
+const $score = document.getElementById('scoreDisplay');
+const $hi = document.getElementById('highScoreDisplay');
+const $len = document.getElementById('lengthDisplay');
+const $lvl = document.getElementById('levelDisplay');
+const $startOverlay = document.getElementById('startOverlay');
+const $gameOverOverlay = document.getElementById('gameOverOverlay');
+const $gameOverTitle = document.getElementById('gameOverTitle');
+const $finalScore = document.getElementById('finalScore');
+const $gameOverSub = document.getElementById('gameOverSub');
+
+speed = SPEEDS.slow;
+highScore = 0;
+
+// ===================== INIT =====================
+function init() {
+  snake = [
+    { x: 13, y: 13 },
+    { x: 12, y: 13 },
+    { x: 11, y: 13 }
+  ];
+  dir = { x: 1, y: 0 };
+  nextDir = { x: 1, y: 0 };
+  score = 0;
+  level = 1;
+  paused = false;
+  alive = true;
+  bonus = null;
+  placeFood();
+  updateHUD();
+  draw();
+}
+
+// ===================== FOOD =====================
+function randCell() {
+  return { x: Math.floor(Math.random() * COLS), y: Math.floor(Math.random() * ROWS) };
+}
+
+function isOnSnake(pos) {
+  return snake.some(s => s.x === pos.x && s.y === pos.y);
+}
+
+function placeFood() {
+  do { food = randCell(); } while (isOnSnake(food));
+}
+
+function maybeSpawnBonus() {
+  if (!bonus && Math.random() < 0.18) {
+    let pos;
+    do { pos = randCell(); } while (isOnSnake(pos) || (pos.x === food.x && pos.y === food.y));
+    bonus = { ...pos, ttl: 60 };
+  }
+}
+
+// ===================== GAME TICK =====================
+function tick() {
+  if (!alive || paused) return;
+
+  dir = { ...nextDir };
+  const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+
+  // Wall collision
+  if (head.x < 0 || head.x >= COLS || head.y < 0 || head.y >= ROWS) {
+    endGame(); return;
+  }
+  // Self collision
+  if (snake.some(s => s.x === head.x && s.y === head.y)) {
+    endGame(); return;
+  }
+
+  snake.unshift(head);
+
+  let ate = false;
+  if (head.x === food.x && head.y === food.y) {
+    score += 10 * level;
+    ate = true;
+    placeFood();
+    maybeSpawnBonus();
+    if (snake.length % 5 === 0) levelUp();
+  } else if (bonus && head.x === bonus.x && head.y === bonus.y) {
+    score += 25 * level;
+    ate = true;
+    bonus = null;
+  } else {
+    snake.pop();
+  }
+
+  // Bonus TTL countdown
+  if (bonus) {
+    bonus.ttl--;
+    if (bonus.ttl <= 0) bonus = null;
+  }
+
+  if (score > highScore) highScore = score;
+  updateHUD();
+  draw();
+}
+
+function levelUp() {
+  level++;
+  // Increase speed slightly per level, but cap at the chosen speed / 2
+  const minInterval = Math.max(speed / 2.5, 28);
+  clearInterval(gameLoop);
+  const newInterval = Math.max(speed - (level - 1) * 8, minInterval);
+  gameLoop = setInterval(tick, newInterval);
+}
+
+function endGame() {
+  alive = false;
+  clearInterval(gameLoop);
+  draw();
+
+  const isNewRecord = score >= highScore && score > 0;
+  $gameOverTitle.textContent = isNewRecord ? '🏆 New Record!' : 'Game Over';
+  $finalScore.innerHTML = `${score} <span>points scored</span>`;
+  $gameOverSub.textContent = isNewRecord ? '🎉 Amazing run!' : `High score: ${highScore}`;
+
+  setTimeout(() => {
+    $gameOverOverlay.classList.remove('hidden');
+  }, 400);
+}
+
+// ===================== HUD =====================
+function updateHUD() {
+  $score.textContent = score;
+  $hi.textContent = highScore;
+  $len.textContent = snake.length;
+  $lvl.textContent = level;
+}
+
+// ===================== DRAW =====================
+function draw() {
+  // Clear
+  ctx.fillStyle = '#0d1117';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Grid dots
+  ctx.fillStyle = 'rgba(255,255,255,0.03)';
+  for (let x = 0; x < COLS; x++) {
+    for (let y = 0; y < ROWS; y++) {
+      ctx.fillRect(x * CELL + CELL/2 - 1, y * CELL + CELL/2 - 1, 2, 2);
+    }
+  }
+
+  // Food
+  const foodX = food.x * CELL + CELL / 2;
+  const foodY = food.y * CELL + CELL / 2;
+  const r = CELL / 2 - 2;
+  const pulse = 0.85 + 0.15 * Math.sin(Date.now() / 200);
+  ctx.save();
+  ctx.shadowColor = '#f97316';
+  ctx.shadowBlur = 16 * pulse;
+  ctx.fillStyle = '#f97316';
+  ctx.beginPath();
+  ctx.arc(foodX, foodY, r * pulse, 0, Math.PI * 2);
+  ctx.fill();
+  // Shine
+  ctx.fillStyle = 'rgba(255,255,255,0.35)';
+  ctx.beginPath();
+  ctx.arc(foodX - r * 0.3, foodY - r * 0.3, r * 0.28, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // Bonus food
+  if (bonus) {
+    const bx = bonus.x * CELL + CELL / 2;
+    const by = bonus.y * CELL + CELL / 2;
+    const bpulse = 0.8 + 0.2 * Math.sin(Date.now() / 150);
+    const alpha = bonus.ttl < 20 ? bonus.ttl / 20 : 1;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.shadowColor = '#a855f7';
+    ctx.shadowBlur = 20;
+    ctx.fillStyle = '#a855f7';
+    ctx.beginPath();
+    // Star shape
+    for (let i = 0; i < 5; i++) {
+      const angle = (i * 4 * Math.PI) / 5 - Math.PI / 2;
+      const px = bx + (r * bpulse) * Math.cos(angle);
+      const py = by + (r * bpulse) * Math.sin(angle);
+      i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+
+  // Snake
+  snake.forEach((seg, i) => {
+    const t = i / snake.length;
+    const g = Math.round(211 - t * 100);
+    const color = i === 0 ? '#58e36b' : `rgb(0, ${g}, 50)`;
+
+    ctx.save();
+    ctx.shadowColor = i === 0 ? 'rgba(88,227,107,0.6)' : 'transparent';
+    ctx.shadowBlur = i === 0 ? 12 : 0;
+    ctx.fillStyle = color;
+
+    const pad = i === 0 ? 1 : 2;
+    const rr = i === 0 ? 6 : 4;
+    const sx = seg.x * CELL + pad;
+    const sy = seg.y * CELL + pad;
+    const sw = CELL - pad * 2;
+    const sh = CELL - pad * 2;
+
+    // Rounded rect
+    ctx.beginPath();
+    ctx.moveTo(sx + rr, sy);
+    ctx.lineTo(sx + sw - rr, sy);
+    ctx.arcTo(sx + sw, sy, sx + sw, sy + rr, rr);
+    ctx.lineTo(sx + sw, sy + sh - rr);
+    ctx.arcTo(sx + sw, sy + sh, sx + sw - rr, sy + sh, rr);
+    ctx.lineTo(sx + rr, sy + sh);
+    ctx.arcTo(sx, sy + sh, sx, sy + sh - rr, rr);
+    ctx.lineTo(sx, sy + rr);
+    ctx.arcTo(sx, sy, sx + rr, sy, rr);
+    ctx.closePath();
+    ctx.fill();
+
+    // Eyes on head
+    if (i === 0) {
+      ctx.fillStyle = '#0d1117';
+      const eyeSize = 3;
+      let eye1, eye2;
+      if (dir.x === 1)       { eye1 = [CELL-5, 4]; eye2 = [CELL-5, CELL-7]; }
+      else if (dir.x === -1) { eye1 = [4, 4]; eye2 = [4, CELL-7]; }
+      else if (dir.y === -1) { eye1 = [4, 4]; eye2 = [CELL-7, 4]; }
+      else                    { eye1 = [4, CELL-5]; eye2 = [CELL-7, CELL-5]; }
+      ctx.beginPath(); ctx.arc(seg.x*CELL + eye1[0], seg.y*CELL + eye1[1], eyeSize, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(seg.x*CELL + eye2[0], seg.y*CELL + eye2[1], eyeSize, 0, Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+  });
+
+  // Paused overlay on canvas
+  if (paused && alive) {
+    ctx.fillStyle = 'rgba(13,17,23,0.7)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#39d353';
+    ctx.font = 'bold 28px Courier New';
+    ctx.textAlign = 'center';
+    ctx.fillText('PAUSED', canvas.width/2, canvas.height/2);
+    ctx.font = '13px Courier New';
+    ctx.fillStyle = '#7d8590';
+    ctx.fillText('press P to resume', canvas.width/2, canvas.height/2 + 30);
+  }
+}
+
+// ===================== INPUT =====================
+const DIRS = {
+  ArrowUp:    { x: 0, y: -1 }, w: { x: 0, y: -1 },
+  ArrowDown:  { x: 0, y: 1 },  s: { x: 0, y: 1 },
+  ArrowLeft:  { x: -1, y: 0 }, a: { x: -1, y: 0 },
+  ArrowRight: { x: 1, y: 0 },  d: { x: 1, y: 0 },
+};
+
+document.addEventListener('keydown', e => {
+  const key = e.key;
+  if (DIRS[key]) {
+    const d = DIRS[key];
+    // Prevent reversing
+    if (d.x !== -dir.x || d.y !== -dir.y) nextDir = d;
+    e.preventDefault();
+  }
+  if (key === 'p' || key === 'P') { paused = !paused; draw(); }
+  if (key === 'r' || key === 'R') restartGame();
+});
+
+// D-pad
+function dpadDir(d) {
+  if (d.x !== -dir.x || d.y !== -dir.y) nextDir = d;
+}
+document.getElementById('dUp').addEventListener('click', () => dpadDir({ x:0, y:-1 }));
+document.getElementById('dDown').addEventListener('click', () => dpadDir({ x:0, y:1 }));
+document.getElementById('dLeft').addEventListener('click', () => dpadDir({ x:-1, y:0 }));
+document.getElementById('dRight').addEventListener('click', () => dpadDir({ x:1, y:0 }));
+
+// ===================== SPEED BUTTONS =====================
+document.querySelectorAll('.speed-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    speed = SPEEDS[btn.dataset.speed];
+    // If game running, restart loop at new speed
+    if (alive && gameLoop) {
+      clearInterval(gameLoop);
+      gameLoop = setInterval(tick, speed);
+    }
+  });
+});
+
+// ===================== BUTTONS =====================
+function startGame() {
+  $startOverlay.classList.add('hidden');
+  $gameOverOverlay.classList.add('hidden');
+  init();
+  clearInterval(gameLoop);
+  gameLoop = setInterval(tick, speed);
+}
+
+function restartGame() {
+  clearInterval(gameLoop);
+  $gameOverOverlay.classList.add('hidden');
+  init();
+  gameLoop = setInterval(tick, speed);
+}
+
+document.getElementById('startBtn').addEventListener('click', startGame);
+document.getElementById('restartBtn').addEventListener('click', restartGame);
+
+// Initial draw
+init();
+draw();
+
+// Animate food glow even on start screen
+function idleAnimate() {
+  if (!alive || paused) draw();
+  requestAnimationFrame(idleAnimate);
+}
+idleAnimate();
+</script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Thomas Zwahlen | Finance & Business</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root { --navy:#0a1628; --gold:#c9a84c; --gold-light:#e8c97a; --slate:#2d3f5f; --light:#f8f6f1; --text:#1a1a2e; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Source Sans 3',sans-serif; color:var(--text); background:var(--light); }
+    .navbar { background:var(--navy)!important; border-bottom:2px solid var(--gold); }
+    .navbar-brand { font-family:'Playfair Display',serif; color:var(--gold)!important; font-size:1.4rem; letter-spacing:1px; }
+    .nav-link { color:#ccc!important; font-weight:600; letter-spacing:.5px; transition:color .2s; }
+    .nav-link:hover,.nav-link.active { color:var(--gold)!important; }
+
+    .hero { background:linear-gradient(135deg,var(--navy) 0%,var(--slate) 60%,#1a2f4a 100%); min-height:92vh; display:flex; align-items:center; position:relative; overflow:hidden; }
+    .hero::before { content:''; position:absolute; top:-120px; right:-120px; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle,rgba(201,168,76,.15) 0%,transparent 70%); }
+    .hero::after { content:''; position:absolute; bottom:-80px; left:-80px; width:350px; height:350px; border-radius:50%; background:radial-gradient(circle,rgba(201,168,76,.08) 0%,transparent 70%); }
+    .hero-tag { display:inline-block; background:var(--gold); color:var(--navy); font-weight:700; font-size:.75rem; letter-spacing:3px; text-transform:uppercase; padding:6px 18px; border-radius:2px; margin-bottom:1.5rem; }
+    .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(3rem,7vw,5.5rem); color:#fff; line-height:1.05; font-weight:900; margin-bottom:1.5rem; }
+    .hero h1 span { color:var(--gold); }
+    .hero p { color:#aab5c8; font-size:1.2rem; line-height:1.8; max-width:520px; margin-bottom:2.5rem; }
+    .btn-gold { background:var(--gold); color:var(--navy); font-weight:700; font-size:.9rem; letter-spacing:1.5px; text-transform:uppercase; padding:14px 36px; border:none; border-radius:2px; text-decoration:none; display:inline-block; transition:background .2s,transform .2s; }
+    .btn-gold:hover { background:var(--gold-light); color:var(--navy); transform:translateY(-2px); }
+    .btn-outline-gold { border:2px solid var(--gold); color:var(--gold); font-weight:700; font-size:.9rem; letter-spacing:1.5px; text-transform:uppercase; padding:12px 34px; border-radius:2px; text-decoration:none; display:inline-block; transition:all .2s; margin-left:1rem; }
+    .btn-outline-gold:hover { background:var(--gold); color:var(--navy); transform:translateY(-2px); }
+    .hero-stats { display:flex; gap:2.5rem; margin-top:3rem; padding-top:2.5rem; border-top:1px solid rgba(201,168,76,.25); flex-wrap:wrap; }
+    .stat-num { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; color:var(--gold); }
+    .stat-label { font-size:.8rem; color:#7a8ba0; text-transform:uppercase; letter-spacing:1px; margin-top:2px; }
+
+    .section-label { font-size:.75rem; letter-spacing:4px; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:.5rem; }
+    .section-title { font-family:'Playfair Display',serif; font-size:clamp(2rem,4vw,3rem); font-weight:900; color:var(--navy); margin-bottom:1.5rem; }
+    .about-section { padding:100px 0; background:var(--light); }
+    .about-card { background:var(--navy); color:#fff; border-radius:4px; padding:2.5rem; height:100%; border-left:4px solid var(--gold); transition:transform .2s; }
+    .about-card:hover { transform:translateY(-4px); }
+    .about-card i { font-size:2rem; color:var(--gold); margin-bottom:1rem; }
+    .about-card h5 { font-family:'Playfair Display',serif; font-size:1.2rem; margin-bottom:.75rem; }
+    .about-card p { color:#aab5c8; font-size:.95rem; line-height:1.7; }
+
+    .resume-section { padding:100px 0; background:#fff; }
+    .resume-block { margin-bottom:3.5rem; }
+    .resume-block h4 { font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--navy); border-bottom:2px solid var(--gold); padding-bottom:.5rem; margin-bottom:1.5rem; }
+    .resume-item { margin-bottom:1.5rem; padding-bottom:1.5rem; border-bottom:1px solid #eee; }
+    .resume-item:last-child { border-bottom:none; }
+    .resume-item .role { font-weight:700; font-size:1.05rem; color:var(--navy); }
+    .resume-item .org { color:var(--gold); font-weight:600; font-size:.95rem; }
+    .resume-item .period { font-size:.82rem; color:#888; letter-spacing:1px; text-transform:uppercase; }
+    .resume-item ul { margin-top:.5rem; color:#444; font-size:.95rem; line-height:1.7; }
+    .skill-badge { display:inline-block; background:var(--navy); color:var(--gold); font-size:.8rem; font-weight:600; padding:5px 14px; border-radius:2px; margin:4px; letter-spacing:.5px; }
+
+    .contact-section { background:var(--navy); padding:80px 0; text-align:center; }
+    .contact-section h2 { font-family:'Playfair Display',serif; color:#fff; font-size:2.5rem; margin-bottom:1rem; }
+    .contact-section p { color:#aab5c8; margin-bottom:2rem; }
+    .social-links a { display:inline-flex; align-items:center; justify-content:center; width:48px; height:48px; border:2px solid rgba(201,168,76,.4); border-radius:50%; color:var(--gold); font-size:1.3rem; margin:0 8px; text-decoration:none; transition:all .2s; }
+    .social-links a:hover { background:var(--gold); color:var(--navy); border-color:var(--gold); }
+    footer { background:#060d1a; padding:20px 0; text-align:center; }
+    footer p { color:#444; font-size:.85rem; margin:0; }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">TZ</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto gap-2">
+        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="resume.html">Résumé</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container position-relative" style="z-index:2;">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <div class="hero-tag">Pre-Business · Economics Minor · BYU</div>
+        <h1>Thomas<br/><span>Zwahlen</span></h1>
+        <p>Finance-focused business student at Brigham Young University with a 3.90 GPA, real-world case competition experience in investment banking and portfolio management, and a personal investing mindset.</p>
+        <a href="resume.html" class="btn-gold">View Résumé</a>
+        <a href="#about" class="btn-outline-gold">About Me</a>
+        <div class="hero-stats">
+          <div>
+            <div class="stat-num">3.90</div>
+            <div class="stat-label">GPA</div>
+          </div>
+          <div>
+            <div class="stat-num">Top 5</div>
+            <div class="stat-label">Keystone Competition</div>
+          </div>
+          <div>
+            <div class="stat-num">$3K+</div>
+            <div class="stat-label">Personal Portfolio</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="container">
+    <div class="text-center mb-5">
+      <div class="section-label">Who I Am</div>
+      <div class="section-title">Driven by Markets,<br/>Guided by Discipline</div>
+      <p class="text-muted" style="max-width:640px;margin:0 auto;font-size:1.05rem;line-height:1.8;">
+        I'm a pre-business student at BYU with a minor in Economics and a passion for finance. From building financial models in case competitions to managing my own equity portfolio, I'm constantly working to sharpen my edge in the markets.
+      </p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="about-card">
+          <i class="bi bi-graph-up-arrow"></i>
+          <h5>Investment & Portfolio</h5>
+          <p>Personal investor managing a $3,000+ portfolio with a disciplined value and long-term strategy. Top holdings: ASML, UBER, and AMZN.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="about-card">
+          <i class="bi bi-bank"></i>
+          <h5>Finance & Banking</h5>
+          <p>Active in BYU's Investment Banking, PE/VC, and Private Banking/Wealth Management associations. Competed in two high-level finance case competitions with real deal structures.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="about-card">
+          <i class="bi bi-people"></i>
+          <h5>Leadership & Service</h5>
+          <p>Teaching Assistant supporting 50+ students, basketball camp coach at Saint Mary's College, and long-time volunteer at ECAP food bank in Oakland.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESUME PREVIEW -->
+<section class="resume-section" id="resume-preview">
+  <div class="container">
+    <div class="text-center mb-5">
+      <div class="section-label">Qualifications</div>
+      <div class="section-title">Education & Experience</div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="resume-block">
+          <h4><i class="bi bi-mortarboard me-2" style="color:var(--gold)"></i>Education</h4>
+          <div class="resume-item">
+            <div class="role">Pre-Business, Minor in Economics</div>
+            <div class="org">Brigham Young University — Provo, UT</div>
+            <div class="period">Expected April 2028</div>
+            <ul>
+              <li>GPA: 3.90 / 4.00</li>
+              <li>Investment Banking Association</li>
+              <li>PE/VC Association</li>
+              <li>Private Banking/Wealth Management Association</li>
+              <li>Chess Club</li>
+            </ul>
+          </div>
+        </div>
+        <div class="resume-block">
+          <h4><i class="bi bi-award me-2" style="color:var(--gold)"></i>Awards & Highlights</h4>
+          <div class="resume-item">
+            <div class="role">2024 CIF Football Champions</div>
+            <div class="org">DAL Basketball — League Leader in Blocks Per Game</div>
+          </div>
+          <div class="resume-item">
+            <div class="role">Top 5 — Keystone National Group</div>
+            <div class="org">Investment Banking Case Competition</div>
+            <div class="period">Oct 2025</div>
+          </div>
+          <div class="resume-item">
+            <div class="role">Personal Investor</div>
+            <div class="org">$3,000+ Portfolio · ASML · UBER · AMZN</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="resume-block">
+          <h4><i class="bi bi-briefcase me-2" style="color:var(--gold)"></i>Experience</h4>
+          <div class="resume-item">
+            <div class="role">Teaching Assistant</div>
+            <div class="org">Brigham Young University</div>
+            <div class="period">Aug 2025 – Present</div>
+            <ul>
+              <li>Primary support contact for 50+ students</li>
+              <li>Managed grading and feedback via Canvas</li>
+            </ul>
+          </div>
+          <div class="resume-item">
+            <div class="role">Case Competitor — Saphire Wealth Management</div>
+            <div class="org">Portfolio Design & HNW Marketing</div>
+            <div class="period">Oct – Nov 2025</div>
+            <ul>
+              <li>Built low-volatility and high-growth portfolios</li>
+              <li>Designed marketing strategy targeting HNW individuals</li>
+            </ul>
+          </div>
+          <div class="resume-item">
+            <div class="role">Top 5 — Keystone National Group</div>
+            <div class="org">Investment Banking Case Competition</div>
+            <div class="period">Sep – Oct 2025</div>
+            <ul>
+              <li>Senior secured ABL pitch for iHeartRadio</li>
+              <li>4-year financial model with EBITDA forecasts</li>
+            </ul>
+          </div>
+        </div>
+        <div class="resume-block">
+          <h4><i class="bi bi-tools me-2" style="color:var(--gold)"></i>Skills & Certifications</h4>
+          <span class="skill-badge">Financial Modeling</span>
+          <span class="skill-badge">Portfolio Management</span>
+          <span class="skill-badge">Bloomberg Market Concepts</span>
+          <span class="skill-badge">CFI Modeling & Accounting</span>
+          <span class="skill-badge">CFA Level 1 (Planned)</span>
+          <span class="skill-badge">Microsoft Excel</span>
+          <span class="skill-badge">Capital Structure Analysis</span>
+          <span class="skill-badge">Value Investing</span>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-4">
+      <a href="resume.html" class="btn-gold">View Full Résumé</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="container">
+    <h2>Let's Connect</h2>
+    <p>Open to internship opportunities, finance conversations, and networking.</p>
+    <div class="social-links mb-4">
+      <a href="https://www.linkedin.com/in/thomas-zwahlen06" target="_blank" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+      <a href="mailto:thomaszwahlen1@gmail.com" title="Email"><i class="bi bi-envelope"></i></a>
+    </div>
+    <a href="resume.html" class="btn-gold">View My Résumé</a>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2025 Thomas Zwahlen. All rights reserved.</p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

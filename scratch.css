@@ -1,0 +1,450 @@
+/* === Thomas Zwahlen — Sports & Fitness Scratch Page Stylesheet === */
+
+/* CSS Custom Properties */
+:root {
+  --dark: #111827;
+  --darker: #0a0f1a;
+  --accent: #f97316;
+  --accent-dim: #c2510a;
+  --text-light: #e5e7eb;
+  --text-muted: #9ca3af;
+  --white: #ffffff;
+  --card-bg: #1f2937;
+  --border: rgba(249, 115, 22, 0.25);
+}
+
+/* === RESET & BASE === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Barlow Condensed', 'Arial Narrow', Arial, sans-serif;
+  background-color: var(--dark);
+  color: var(--text-light);
+  line-height: 1.6;
+}
+
+/* === TYPOGRAPHY === */
+h1, h2, h3, h4 {
+  font-family: 'Oswald', 'Impact', 'Arial Narrow', Arial, sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+p {
+  font-family: 'Barlow', Georgia, serif;
+  font-size: 1rem;
+  color: var(--text-light);
+  line-height: 1.75;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: #fdba74;
+}
+
+/* === DIV: NAV BAR === */
+div#scratch-nav {
+  background: var(--darker);
+  border-bottom: 3px solid var(--accent);
+  padding: 18px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+div#scratch-nav .logo {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+div#scratch-nav .nav-links a {
+  color: var(--text-muted);
+  margin-left: 2rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+div#scratch-nav .nav-links a:hover {
+  color: var(--accent);
+}
+
+/* === DIV: HERO SECTION === */
+div#hero-section {
+  background:
+    linear-gradient(to bottom, rgba(10,15,26,0.85) 0%, rgba(17,24,39,0.75) 100%),
+    url('https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=1600&q=80') center/cover no-repeat;
+  min-height: 88vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 5%;
+  position: relative;
+}
+
+div#hero-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+
+.hero-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  padding: 6px 20px;
+  border-radius: 1px;
+  margin-bottom: 1.5rem;
+}
+
+.hero-title {
+  font-size: clamp(3.5rem, 10vw, 7rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 0.95;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 4px 30px rgba(0,0,0,0.5);
+}
+
+.hero-title span {
+  color: var(--accent);
+  display: block;
+}
+
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+}
+
+.cta-btn {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 16px 42px;
+  border-radius: 2px;
+  transition: background 0.2s, transform 0.2s;
+  text-decoration: none;
+}
+
+.cta-btn:hover {
+  background: var(--accent-dim);
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+/* === DIV: CONTENT BLOCKS (main content area) === */
+div#content-blocks {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 5%;
+}
+
+/* === SECTION HEADINGS === */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.section-header::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+
+.section-label {
+  font-size: 0.65rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.section-title-text {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 900;
+  color: var(--white);
+  margin: 0;
+}
+
+/* === CARDS === */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 5rem;
+}
+
+.sport-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent);
+  border-radius: 4px;
+  padding: 2rem;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.sport-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+}
+
+.sport-card .icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.sport-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+  color: var(--white);
+}
+
+.sport-card p {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+/* === LISTS === */
+.list-section {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2.5rem;
+  margin-bottom: 5rem;
+}
+
+ol.main-list {
+  padding-left: 1.5rem;
+  color: var(--text-light);
+  font-size: 1rem;
+}
+
+ol.main-list > li {
+  margin-bottom: 1.25rem;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--accent);
+  font-family: 'Oswald', sans-serif;
+  letter-spacing: 1px;
+}
+
+ol.main-list > li span {
+  color: var(--white);
+}
+
+ul.sub-list {
+  list-style: none;
+  padding-left: 1.2rem;
+  margin-top: 0.5rem;
+}
+
+ul.sub-list li {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  padding: 4px 0;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 400;
+}
+
+ul.sub-list li::before {
+  content: '▸ ';
+  color: var(--accent);
+}
+
+/* === IMAGE SECTION === */
+.image-section {
+  margin-bottom: 5rem;
+}
+
+.img-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+}
+
+.img-grid img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  display: block;
+}
+
+.img-grid img:first-child {
+  height: 100%;
+}
+
+img.hero-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* === VIDEO SECTION === */
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  margin-bottom: 5rem;
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* === TABLEAU SECTION === */
+.tableau-section {
+  margin-bottom: 5rem;
+}
+
+.tableau-container {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+/* === STAT BARS === */
+.stat-bar-section {
+  margin-bottom: 5rem;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.stat-name {
+  min-width: 160px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+.stat-track {
+  flex: 1;
+  background: rgba(255,255,255,0.07);
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.stat-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+  border-radius: 5px;
+  transition: width 1s ease;
+}
+
+.stat-pct {
+  min-width: 40px;
+  text-align: right;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--accent);
+}
+
+/* === FOOTER === */
+div#scratch-footer {
+  background: var(--darker);
+  border-top: 3px solid var(--accent);
+  padding: 40px 5%;
+  text-align: center;
+}
+
+div#scratch-footer p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+div#scratch-footer .footer-links a {
+  color: var(--accent);
+  margin: 0 1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* === ANCHOR TARGET HIGHLIGHT === */
+.anchor-target {
+  scroll-margin-top: 80px;
+}
+
+/* === QUOTE BLOCK === */
+.quote-block {
+  border-left: 4px solid var(--accent);
+  padding: 1.25rem 1.75rem;
+  background: rgba(249,115,22,0.06);
+  margin: 2rem 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.quote-block blockquote {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: var(--text-light);
+  line-height: 1.7;
+  font-family: Georgia, serif;
+}
+
+.quote-block cite {
+  font-size: 0.85rem;
+  color: var(--accent);
+  font-style: normal;
+  font-weight: 700;
+  display: block;
+  margin-top: 0.5rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
